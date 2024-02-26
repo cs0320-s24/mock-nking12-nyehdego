@@ -10,14 +10,14 @@ import "../styles/main.css";
  * *NOT* contain the command-name prefix.
  */
 export interface REPLFunction {    
-    (args: Array<string>): String|String[][]
+    (args: Array<string>): string|string[][]
 } 
 
 export const commands: { [key: string]: REPLFunction} = {
-  mode: (args: string[]) => handleMode(args),
+//   mode: (args: string[]) => handleMode(args),
 };
 
 
-function handleMode(args: Array<string>): String | String[][] {
-    return 'Mode Changed!';
-}
+// function handleMode(args: Array<string>): String | String[][] {
+//     return 'Mode Changed!';
+// }

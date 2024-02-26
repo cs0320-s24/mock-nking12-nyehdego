@@ -8,7 +8,6 @@ import REPL from "./REPL";
  */
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [isBrief, setMode] = useState<boolean>(true);
 
   return (
     <div className="App">
