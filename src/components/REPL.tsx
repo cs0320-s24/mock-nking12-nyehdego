@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../styles/main.css";
 import { REPLHistory } from "./REPLHistory";
 import { REPLInput } from "./REPLInput";
+import { Dispatch, SetStateAction } from "react";
 
 /* 
   You'll want to expand this component (and others) for the sprints! Remember 
@@ -12,10 +13,12 @@ import { REPLInput } from "./REPLInput";
   You don't need to do that for this gearup.
 */
 
+
 export default function REPL() {
   // TODO: Add some kind of shared state that holds all the commands submitted.
   // CHANGED
   const [history, setHistory] = useState<string[]>([]);
+  const [isBrief, setIsBrief] = useState<boolean>(true);
 
   return (
     <div className="repl">
@@ -24,7 +27,7 @@ export default function REPL() {
       <REPLHistory history={history} />
       <hr></hr>
       {/* CHANGED */}
-      <REPLInput history={history} setHistory={setHistory} />
+      <REPLInput history={history} setHistory={setHistory} isBrief={isBrief} setIsBrief={setIsBrief}/>
     </div>
   );
 }

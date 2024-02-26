@@ -8,7 +8,8 @@ interface REPLInputProps {
   // CHANGED
   history: string[];
   setHistory: Dispatch<SetStateAction<string[]>>;
-  setMode: Dispatch<SetStateAction<boolean>>;
+  isBrief: boolean;
+  setIsBrief: Dispatch<SetStateAction<boolean>>;
 }
 
 
@@ -21,18 +22,46 @@ export function REPLInput(props : REPLInputProps) {
     const [commandString, setCommandString] = useState<string>('');
     // TODO WITH TA : add a count state
     const [count, setCount] = useState<number>(0)
+
+    function handleMode(command: string, output: string) {
+      if (props.isBrief) {
+        props.setHistory([...props.history, output]);
+      } else {
+        props.setHistory([
+          ...props.history,
+          "Command: " + command, "Output: " + output,
+        ]);
+      }
+      setCommandString("");
+    }
+
+    function modeName() : string{
+      if (props.isBrief == true){
+        return "brief"
+      } else{
+        return "verbose"
+      }
+    }
+      
     
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
+      setCount(count + 1);
       const commandArr: string[] = commandString.split(" ");
       const command: string = commandArr[0]
-      setCount(count+1)
+      if (command == 'mode'){
+        props.setIsBrief(!props.isBrief);
+        const output : string = "mode changed to " + modeName()
+        handleMode(command, output)
+        return;
+      } else {
       const functionToUse= commands[command]
-      functionToUse(commandArr.slice(1))
-      // CHANGED
-      props.setHistory([...props.history, commandString])
-      setCommandString('')
+      const output : string | string[][] = functionToUse(commandArr.slice(1))
+      handleMode(command, output) //this is broken but I will fix when we implement more commands
+      setCommandString("");
+      }
     }
+
     /**
      * We suggest breaking down this component into smaller components, think about the individual pieces 
      * of the REPL and how they connect to each other...
