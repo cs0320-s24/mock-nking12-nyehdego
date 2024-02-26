@@ -1,13 +1,18 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import '../styles/main.css';
 import { ControlledInput } from './ControlledInput';
+import { commands } from './REPLFunction';
 
-interface REPLInputProps{
+interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
   // CHANGED
-  history: string[],
-  setHistory: Dispatch<SetStateAction<string[]>>,
+  history: string[];
+  setHistory: Dispatch<SetStateAction<string[]>>;
+  setMode: Dispatch<SetStateAction<boolean>>;
 }
+
+
+
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
 // REPLInput(history: string[], setHistory: Dispatch<SetStateAction<string[]>>)
 export function REPLInput(props : REPLInputProps) {
@@ -19,7 +24,11 @@ export function REPLInput(props : REPLInputProps) {
     
     // This function is triggered when the button is clicked.
     function handleSubmit(commandString:string) {
+      const commandArr: string[] = commandString.split(" ");
+      const command: string = commandArr[0]
       setCount(count+1)
+      const functionToUse= commands[command]
+      functionToUse(commandArr.slice(1))
       // CHANGED
       props.setHistory([...props.history, commandString])
       setCommandString('')
