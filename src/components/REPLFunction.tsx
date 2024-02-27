@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import "../styles/main.css";
 //import "../src/mockedJson.ts"
-import { mocked_data_1, mocked_data_2, mocked_data_3, mocked_data_4, mocked_data_5 } from "../mockedJson";
+import { mocked_data_1, mocked_data_2, mocked_data_3, mocked_data_4, mocked_data_5, mocked_malformed } from "../mockedJson";
 
 
 /**
@@ -26,6 +26,7 @@ const dataMap: { [index: string]: string[][] } = {
     mocked_data_3: mocked_data_3,
     mocked_data_4: mocked_data_4,
     mocked_data_5: mocked_data_5,
+    mocked_malformed: mocked_malformed,
 };
 
 const queryMap: { [key: string]: { [key: string]: string | string[][] } } = {
@@ -33,7 +34,7 @@ const queryMap: { [key: string]: { [key: string]: string | string[][] } } = {
   mocked_data_2: {
     "0 Hello": [["Hello", "Tim", "Bye"]],
     "2 Blue": [["Red", "Yellow", "Blue"]],
-    "4 Hi": [[]],
+    "4 Hi": "No matches",
   },
   mocked_data_3: { "0 Hello": [[]] },
   mocked_data_4: {
@@ -41,7 +42,7 @@ const queryMap: { [key: string]: { [key: string]: string | string[][] } } = {
       ["Red", "Orange", "Yellow"],
       ["Green", "Orange", "Red"],
     ],
-    "Orange 3": [[]],
+    "Orange 3": "No matches",
   },
   mocked_data_5: {
     "StarID 0": [["0", "Sol", "0", "0", "0"]],
@@ -65,12 +66,15 @@ export const commands: { [key: string]: REPLFunction } = {
 function handleLoad(args: Array<string>) : string | string[][]{
     const filepath = args[1]
     loadedFile = dataMap[args[1]]
+    if (dataMap[filepath] === mocked_malformed){
+        return "Malformed csv. Try a different one."
+    }
     if (dataMap[filepath]) {
         isLoaded = true;
         loadedFileName = args[1];
-        return `"${filepath}" successfully loaded`;
+        return `${filepath} successfully loaded`;
     } else {
-        return `ERROR: "${filepath}" is not valid. Try again.`;
+        return `ERROR: ${filepath} is not valid. Try again.`;
     }
 }
 
