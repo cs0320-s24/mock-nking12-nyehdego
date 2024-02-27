@@ -18,6 +18,7 @@ export interface REPLFunction {
 } 
 
 let loadedFile: string[][] = [];
+let isLoaded: boolean = false;
 
 export const commands: { [key: string]: REPLFunction } = {
   "load_csv": (args: string[]) => handleLoad(args),
@@ -34,6 +35,7 @@ function handleLoad(args: Array<string>) : string | string[][]{
     };
     loadedFile = dataMap[args[1]]
     if (dataMap[filepath]) {
+        isLoaded = true;
         return `"${filepath}" successfully loaded`;
     } else {
         return `ERROR: "${filepath}" is not valid. Try again.`;
@@ -41,7 +43,7 @@ function handleLoad(args: Array<string>) : string | string[][]{
 }
 
 function handleView(args: Array<string>) : string | string[][]{
-    if (loadedFile.length === 0){
+    if (!isLoaded){
         return "Error: No CSV loaded";
     } else {
         return loadedFile;

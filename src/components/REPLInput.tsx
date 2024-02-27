@@ -40,21 +40,17 @@ export function REPLInput(props : REPLInputProps) {
           props.history.push(output);
         } else {
           for (let i = 0; i < output.length; i++) {
-            for (let j = 0; j < output[i].length; j++)
-              props.history.push(output[i][j]);
+              props.history.push("[" + output[i].toString() + "]");
           }
         }
       } else {
-        props.setHistory([...props.history, "Command: " + command, "Output: "]);
-
+        props.history.push("Command: " + command);
         const output = func(args);
         if (typeof output === "string") {
-          props.history.push(output);
+          props.history.push("Output: " + output);
         } else {
-
           for (let i = 0; i < output.length; i++) {
-            for (let j = 0; j < output[i].length; j++)
-              props.history.push(output[i][j]);
+            props.history.push("[" + output[i].toString() + "]");
           }
         }
       }
@@ -74,7 +70,10 @@ export function REPLInput(props : REPLInputProps) {
         props.setHistory([...props.history, "mode changed to " + modeName()]);
       } else {
       const functionToUse = commands[command]
-      handleCommands(command, commandArr, functionToUse)
+      if (typeof functionToUse != 'function'){
+        props.setHistory([...props.history, "Error: command not recognized"]);
+      } else{
+      handleCommands(command, commandArr, functionToUse)}
       }
       setCommandString("");
     }
