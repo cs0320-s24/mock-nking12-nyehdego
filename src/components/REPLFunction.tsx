@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import "../styles/main.css";
 //import "../src/mockedJson.ts"
-import { mocked_data_1, mocked_data_2, mocked_data_3, mocked_data_4 } from "../mockedJson";
+import { mocked_data_1, mocked_data_2, mocked_data_3, mocked_data_4, mocked_data_5 } from "../mockedJson";
 
 
 /**
@@ -19,6 +19,13 @@ export interface REPLFunction {
 
 let loadedFile: string[][] = [];
 let isLoaded: boolean = false;
+const dataMap: { [index: string]: string[][] } = {
+    mocked_data_1: mocked_data_1,
+    mocked_data_2: mocked_data_2,
+    mocked_data_3: mocked_data_3,
+    mocked_data_4: mocked_data_4,
+    mocked_data_5: mocked_data_5,
+};
 
 export const commands: { [key: string]: REPLFunction } = {
   load_csv: (args: string[]) => handleLoad(args),
@@ -33,12 +40,6 @@ export const commands: { [key: string]: REPLFunction } = {
 
 function handleLoad(args: Array<string>) : string | string[][]{
     const filepath = args[1]
-    const dataMap: { [index: string]: string[][] } = {
-        "mocked_data_1": mocked_data_1,
-        "mocked_data_2": mocked_data_2,
-        "mocked_data_3": mocked_data_3,
-        "mocked_data_4": mocked_data_4
-    };
     loadedFile = dataMap[args[1]]
     if (dataMap[filepath]) {
         isLoaded = true;
