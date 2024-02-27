@@ -1,7 +1,8 @@
+import { arrayBuffer } from 'node:stream/consumers';
 import { Dispatch, SetStateAction, useState } from 'react';
 import '../styles/main.css';
 import { ControlledInput } from './ControlledInput';
-import { commands } from './REPLFunction';
+import { commands, REPLFunction } from './REPLFunction';
 
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
@@ -23,24 +24,42 @@ export function REPLInput(props : REPLInputProps) {
     // TODO WITH TA : add a count state
     const [count, setCount] = useState<number>(0)
 
-    function handleMode(command: string, output: string) {
-      if (props.isBrief) {
-        props.setHistory([...props.history, output]);
-      } else {
-        props.setHistory([
-          ...props.history,
-          "Command: " + command, "Output: " + output,
-        ]);
-      }
-      setCommandString("");
-    }
+        function modeName(): string {
+          if (props.isBrief == true) {
+            return "brief";
+          } else {
+            return "verbose";
+          }
+        }
 
-    function modeName() : string{
-      if (props.isBrief == true){
-        return "brief"
-      } else{
-        return "verbose"
+
+    function handleCommands(command : string, args: Array<string>, func: REPLFunction) {
+      if (props.isBrief) {
+        const output = func(args);
+        if (typeof output === "string") {
+          props.history.push(output);
+        } else {
+          for (let i = 0; i < output.length; i++) {
+            for (let j = 0; j < output[i].length; j++)
+              props.history.push(output[i][j]);
+          }
+        }
+      } else {
+        props.setHistory([...props.history, "Command: " + command, "Output: "]);
+
+        const output = func(args);
+        if (typeof output === "string") {
+          props.history.push(output);
+        } else {
+
+          for (let i = 0; i < output.length; i++) {
+            for (let j = 0; j < output[i].length; j++)
+              props.history.push(output[i][j]);
+          }
+        }
       }
+      props.setHistory([...props.history]);
+      setCommandString("");
     }
       
     
@@ -49,17 +68,15 @@ export function REPLInput(props : REPLInputProps) {
       setCount(count + 1);
       const commandArr: string[] = commandString.split(" ");
       const command: string = commandArr[0]
+      console.log(commandArr)
       if (command == 'mode'){
         props.setIsBrief(!props.isBrief);
-        const output : string = "mode changed to " + modeName()
-        handleMode(command, output)
-        return;
+        props.setHistory([...props.history, "mode changed to " + modeName()]);
       } else {
-      const functionToUse= commands[command]
-      const output : string | string[][] = functionToUse(commandArr.slice(1))
-      handleMode(command, output) //this is broken but I will fix when we implement more commands
-      setCommandString("");
+      const functionToUse = commands[command]
+      handleCommands(command, commandArr, functionToUse)
       }
+      setCommandString("");
     }
 
     /**

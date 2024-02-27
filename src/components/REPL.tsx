@@ -24,7 +24,7 @@ export default function REPL() {
     <div className="repl">
       {/*This is where your REPLHistory might go... You also may choose to add it within your REPLInput 
       component or somewhere else depending on your component organization. What are the pros and cons of each? */}
-      <REPLHistory history={history} />
+      <REPLHistory history={history} isBrief={isBrief}/>
       <hr></hr>
       {/* CHANGED */}
       <REPLInput history={history} setHistory={setHistory} isBrief={isBrief} setIsBrief={setIsBrief}/>
