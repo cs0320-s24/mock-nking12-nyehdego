@@ -13,7 +13,7 @@ export const mocked_data_3 = []
 
 export const mocked_data_4 = [
   ["Red", "Orange", "Yellow"],
-  ["Green", "Blue"]
+  ["Green", "Orange", "Red"]
 ];
 
 export const mocked_data_5 = [
