@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
 
-
+// this interface and file handles the login functionality
 interface loginProps {
   isLoggedIn: boolean
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>
 }
 
+// function handler for logging into the website
 export function LoginButton(props: loginProps) {
 
   const authenticate = () => {

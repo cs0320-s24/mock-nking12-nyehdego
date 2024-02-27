@@ -17,6 +17,7 @@ export interface REPLFunction {
 } 
 
 
+// Map containg all of our mocked data
 let loadedFile: string[][] = [];
 let loadedFileName : string;
 let isLoaded: boolean = false;
@@ -29,6 +30,7 @@ const dataMap: { [index: string]: string[][] } = {
     mocked_malformed: mocked_malformed,
 };
 
+// mocked data query map for our "mocked" calls to search command
 const queryMap: { [key: string]: { [key: string]: string | string[][] } } = {
   mocked_data_1: { "0 1": [["1", "2", "3", "4", "5"]], "4 11": [[]] },
   mocked_data_2: {
@@ -52,6 +54,7 @@ const queryMap: { [key: string]: { [key: string]: string | string[][] } } = {
   },
 };
 
+// strategy pattern: any developer can add commands to this command map and have corresponding functions to build on the capabilities of the program
 export const commands: { [key: string]: REPLFunction } = {
   load_csv: (args: string[]) => handleLoad(args),
   view: (args: string[]) => handleView(args),
@@ -63,6 +66,7 @@ export const commands: { [key: string]: REPLFunction } = {
   ) => handleMode(args, isBrief, setIsBrief),
 };
 
+// function that handles load command
 function handleLoad(args: Array<string>) : string | string[][]{
     const filepath = args[1]
     loadedFile = dataMap[args[1]]
@@ -78,6 +82,7 @@ function handleLoad(args: Array<string>) : string | string[][]{
     }
 }
 
+// function that handles view command
 function handleView(args: Array<string>) : string | string[][]{
     if (!isLoaded){
         return "Error: No CSV loaded";
@@ -85,6 +90,12 @@ function handleView(args: Array<string>) : string | string[][]{
         return loadedFile;
     }
 }
+
+/**
+ * function that handles search command, taking in arguments for a potential column name or index for more narrowed search
+ * 
+ * for this search to work with mocked data, we have it query through our queryMap for ease
+ */
 
 function handleSearch(args: Array<string>) : string | string[][] {
     if (!isLoaded){
@@ -98,6 +109,10 @@ function handleSearch(args: Array<string>) : string | string[][] {
 }
 
 
+/**
+ * function that handles mode command, taking in the global ifBrief variable to mark whether we are in verbose or brief
+ * 
+ */
 function handleMode(args: Array<string>, isBrief:boolean, setIsBrief: Dispatch<SetStateAction<boolean>>): string | string[][] {
     function modeName(): string {
       if (isBrief == true) {

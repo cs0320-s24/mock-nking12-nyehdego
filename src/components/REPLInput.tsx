@@ -26,7 +26,7 @@ export function REPLInput(props : REPLInputProps) {
 
       
 
-
+  // this function handles the output depending on whether the mod eis verbose or brief
     function handleCommands(command : string, args: Array<string>, func: REPLFunction) {
       if (props.isBrief) {
         const output = func(args, props.isBrief, props.setIsBrief);
@@ -54,7 +54,7 @@ export function REPLInput(props : REPLInputProps) {
     }
       
     
-    // This function is triggered when the button is clicked.
+    // This function is triggered when the button is clicked, and calls on the handlecommands to parse the text 
     function handleSubmit(commandString:string) {
       setCount(count + 1);
       const commandArr: string[] = commandString.split(" ");

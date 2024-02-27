@@ -14,6 +14,7 @@ import { Dispatch, SetStateAction } from "react";
 */
 
 
+// this function handles the history state of the REPL
 export default function REPL() {
   // TODO: Add some kind of shared state that holds all the commands submitted.
   // CHANGED
