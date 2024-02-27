@@ -22,7 +22,6 @@ let loadedFile: string[][] = [];
 export const commands: { [key: string]: REPLFunction } = {
   "load_csv": (args: string[]) => handleLoad(args),
   "view": (args: string[]) => handleView(args),
-
 };
 
 function handleLoad(args: Array<string>) : string | string[][]{

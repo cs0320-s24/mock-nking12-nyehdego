@@ -4,12 +4,9 @@ interface REPLHistoryProps {
   // TODO: Fill with some shared state tracking all the pushed commands
   // CHANGED
   history: string[];
-
-  //history: { command: string; output: string}[];
   isBrief: boolean;
 }
 export function REPLHistory(props : REPLHistoryProps) {
-    //function commandOutput(command: string): any[][] | string | JSX.Element {
     return (
               <div className="repl-history" aria-label='repl-history'>
             {/* This is where command history will go */}

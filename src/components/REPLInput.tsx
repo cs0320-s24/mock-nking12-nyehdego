@@ -32,35 +32,33 @@ export function REPLInput(props : REPLInputProps) {
           }
         }
 
-    // function handleMode(command: string, output: string[]) {
-    //   if (props.isBrief) {
-    //     props.setHistory([...props.history, output]);
-    //   } else {
-    //     props.setHistory([
-    //       ...props.history,
-    //       "Command: " + command, "Output: " + output,
-    //     ]);
-    //   }
-    //   setCommandString("");
-    // }
 
-    function handleMode(args: Array<string>, func: REPLFunction) {
+    function handleCommands(command : string, args: Array<string>, func: REPLFunction) {
       if (props.isBrief) {
         const output = func(args);
-        if (typeof output === 'string') {
-          props.setHistory([...props.history, output]);}
-        else {
-          for (let i = 0; i < output.length; i++){
+        if (typeof output === "string") {
+          props.history.push(output);
+        } else {
+          for (let i = 0; i < output.length; i++) {
             for (let j = 0; j < output[i].length; j++)
-            props.setHistory([...props.history, output[i][j]]);
+              props.history.push(output[i][j]);
           }
         }
       } else {
-        props.setHistory([
-          ...props.history,
-          "Command: " + command, "Output: " + output,
-        ]);
+        props.setHistory([...props.history, "Command: " + command, "Output: "]);
+
+        const output = func(args);
+        if (typeof output === "string") {
+          props.history.push(output);
+        } else {
+
+          for (let i = 0; i < output.length; i++) {
+            for (let j = 0; j < output[i].length; j++)
+              props.history.push(output[i][j]);
+          }
+        }
       }
+      props.setHistory([...props.history]);
       setCommandString("");
     }
       
@@ -74,12 +72,11 @@ export function REPLInput(props : REPLInputProps) {
       if (command == 'mode'){
         props.setIsBrief(!props.isBrief);
         props.setHistory([...props.history, "mode changed to " + modeName()]);
-        return;
       } else {
       const functionToUse = commands[command]
-      handleMode(commandArr, functionToUse) //this is broken but I will fix when we implement more commands
-      setCommandString("");
+      handleCommands(command, commandArr, functionToUse)
       }
+      setCommandString("");
     }
 
     /**
