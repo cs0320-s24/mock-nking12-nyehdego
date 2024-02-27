@@ -24,37 +24,27 @@ export function REPLInput(props : REPLInputProps) {
     // TODO WITH TA : add a count state
     const [count, setCount] = useState<number>(0)
 
-        function modeName(): string {
-          if (props.isBrief == true) {
-            return "brief";
-          } else {
-            return "verbose";
-          }
-        }
+      
 
 
     function handleCommands(command : string, args: Array<string>, func: REPLFunction) {
       if (props.isBrief) {
-        const output = func(args);
+        const output = func(args, props.isBrief, props.setIsBrief);
         if (typeof output === "string") {
           props.history.push(output);
         } else {
           for (let i = 0; i < output.length; i++) {
-            for (let j = 0; j < output[i].length; j++)
-              props.history.push(output[i][j]);
+              props.history.push("[" + output[i].toString() + "]");
           }
         }
       } else {
-        props.setHistory([...props.history, "Command: " + command, "Output: "]);
-
-        const output = func(args);
+        props.history.push("Command: " + command);
+        const output = func(args,props.isBrief, props.setIsBrief);
         if (typeof output === "string") {
-          props.history.push(output);
+          props.history.push("Output: " + output);
         } else {
-
           for (let i = 0; i < output.length; i++) {
-            for (let j = 0; j < output[i].length; j++)
-              props.history.push(output[i][j]);
+            props.history.push("[" + output[i].toString() + "]");
           }
         }
       }
@@ -68,14 +58,11 @@ export function REPLInput(props : REPLInputProps) {
       setCount(count + 1);
       const commandArr: string[] = commandString.split(" ");
       const command: string = commandArr[0]
-      console.log(commandArr)
-      if (command == 'mode'){
-        props.setIsBrief(!props.isBrief);
-        props.setHistory([...props.history, "mode changed to " + modeName()]);
-      } else {
       const functionToUse = commands[command]
-      handleCommands(command, commandArr, functionToUse)
-      }
+      if (typeof functionToUse != 'function'){
+        props.setHistory([...props.history, "Error: command not recognized"]);
+      } else{
+      handleCommands(command, commandArr, functionToUse)}
       setCommandString("");
     }
 

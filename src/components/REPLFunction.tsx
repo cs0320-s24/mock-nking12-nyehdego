@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import "../styles/main.css";
 //import "../src/mockedJson.ts"
-import { mocked_data_1, mocked_data_2, mocked_data_3, mocked_data_4 } from "../mockedJson";
+import { mocked_data_1, mocked_data_2, mocked_data_3, mocked_data_4, mocked_data_5 } from "../mockedJson";
 
 
 /**
@@ -12,28 +12,37 @@ import { mocked_data_1, mocked_data_2, mocked_data_3, mocked_data_4 } from "../m
  * *NOT* contain the command-name prefix.
  */
 
-
 export interface REPLFunction {    
-    (args: Array<string>): string|string[][]
+    (args: Array<string>, isBrief: boolean, setIsBrief: Dispatch<SetStateAction<boolean>>): string|string[][]
 } 
 
+
 let loadedFile: string[][] = [];
+let isLoaded: boolean = false;
+const dataMap: { [index: string]: string[][] } = {
+    mocked_data_1: mocked_data_1,
+    mocked_data_2: mocked_data_2,
+    mocked_data_3: mocked_data_3,
+    mocked_data_4: mocked_data_4,
+    mocked_data_5: mocked_data_5,
+};
 
 export const commands: { [key: string]: REPLFunction } = {
-  "load_csv": (args: string[]) => handleLoad(args),
-  "view": (args: string[]) => handleView(args),
+  load_csv: (args: string[]) => handleLoad(args),
+  view: (args: string[]) => handleView(args),
+  search: (args: string[]) => handleSearch(args),
+  mode: (
+    args: string[],
+    isBrief: boolean,
+    setIsBrief: Dispatch<SetStateAction<boolean>>
+  ) => handleMode(args, isBrief, setIsBrief),
 };
 
 function handleLoad(args: Array<string>) : string | string[][]{
     const filepath = args[1]
-    const dataMap: { [index: string]: string[][] } = {
-        "mocked_data_1": mocked_data_1,
-        "mocked_data_2": mocked_data_2,
-        "mocked_data_3": mocked_data_3,
-        "mocked_data_4": mocked_data_4
-    };
     loadedFile = dataMap[args[1]]
     if (dataMap[filepath]) {
+        isLoaded = true;
         return `"${filepath}" successfully loaded`;
     } else {
         return `ERROR: "${filepath}" is not valid. Try again.`;
@@ -41,15 +50,24 @@ function handleLoad(args: Array<string>) : string | string[][]{
 }
 
 function handleView(args: Array<string>) : string | string[][]{
-    if (loadedFile.length === 0){
+    if (!isLoaded){
         return "Error: No CSV loaded";
     } else {
         return loadedFile;
     }
 }
 
+function handleSearch(args: Array<string>) : string | string[][] {}
 
 
-// function handleMode(args: Array<string>): String | String[][] {
-//     return 'Mode Changed!';
-// }
+function handleMode(args: Array<string>, isBrief:boolean, setIsBrief: Dispatch<SetStateAction<boolean>>): string | string[][] {
+    function modeName(): string {
+      if (isBrief == true) {
+        return "verbose";
+      } else {
+        return "brief";
+      }
+    }
+    setIsBrief(!isBrief);
+    return "Mode changed to: " + modeName();
+}
