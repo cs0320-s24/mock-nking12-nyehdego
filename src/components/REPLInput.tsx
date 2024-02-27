@@ -43,6 +43,7 @@ export function REPLInput(props : REPLInputProps) {
         if (typeof output === "string") {
           props.history.push("Output: " + output);
         } else {
+          props.history.push("Output: ");
           for (let i = 0; i < output.length; i++) {
             props.history.push("[" + output[i].toString() + "]");
           }
