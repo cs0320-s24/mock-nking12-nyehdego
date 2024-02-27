@@ -24,18 +24,12 @@ export function REPLInput(props : REPLInputProps) {
     // TODO WITH TA : add a count state
     const [count, setCount] = useState<number>(0)
 
-        function modeName(): string {
-          if (props.isBrief == true) {
-            return "brief";
-          } else {
-            return "verbose";
-          }
-        }
+      
 
 
     function handleCommands(command : string, args: Array<string>, func: REPLFunction) {
       if (props.isBrief) {
-        const output = func(args);
+        const output = func(args, props.isBrief, props.setIsBrief);
         if (typeof output === "string") {
           props.history.push(output);
         } else {
@@ -45,7 +39,7 @@ export function REPLInput(props : REPLInputProps) {
         }
       } else {
         props.history.push("Command: " + command);
-        const output = func(args);
+        const output = func(args,props.isBrief, props.setIsBrief);
         if (typeof output === "string") {
           props.history.push("Output: " + output);
         } else {
@@ -64,17 +58,11 @@ export function REPLInput(props : REPLInputProps) {
       setCount(count + 1);
       const commandArr: string[] = commandString.split(" ");
       const command: string = commandArr[0]
-      console.log(commandArr)
-      if (command == 'mode'){
-        props.setIsBrief(!props.isBrief);
-        props.setHistory([...props.history, "mode changed to " + modeName()]);
-      } else {
       const functionToUse = commands[command]
       if (typeof functionToUse != 'function'){
         props.setHistory([...props.history, "Error: command not recognized"]);
       } else{
       handleCommands(command, commandArr, functionToUse)}
-      }
       setCommandString("");
     }
 
