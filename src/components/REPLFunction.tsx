@@ -68,25 +68,25 @@ export const commands: { [key: string]: REPLFunction } = {
 };
 
 // function that handles load command
-function handleLoad(args: Array<string>) : string | string[][]{
+function handleLoad(args: Array<string>) : JSX.Element {
     const filepath = args[1]
     loadedFile = dataMap[args[1]]
     if (dataMap[filepath] === mocked_malformed){
-        return "Malformed csv. Try a different one."
+        return <p>Malformed csv. Try a different one.</p>
     }
     if (dataMap[filepath]) {
         isLoaded = true;
         loadedFileName = args[1];
-        return `${filepath} successfully loaded`;
+        return <p>{filepath} successfully loaded</p>;
     } else {
-        return `ERROR: ${filepath} is not valid. Try again.`;
+        return <p>ERROR: ${filepath} is not valid. Try again.</p>;
     }
 }
 
 // function that handles view command
-function handleView(args: Array<string>) : string|string[][]|JSX.Element {
+function handleView(args: Array<string>) : JSX.Element {
   if (!isLoaded) {
-      return "Error: No CSV loaded";
+      return <p>Error: No CSV loaded</p>;
   } else {
       // Assuming loadedFile is a 2D array of strings
       const output = (
@@ -107,14 +107,14 @@ function handleView(args: Array<string>) : string|string[][]|JSX.Element {
  * for this search to work with mocked data, we have it query through our queryMap for ease
  */
 
-function handleSearch(args: Array<string>) : string | string[][] {
+function handleSearch(args: Array<string>) : JSX.Element {
     if (!isLoaded){
-        return "Error: No CSV loaded";
+        return <p>Error: No CSV loaded</p>;
     } else {
     const col = args[1]
     const value = args[2]
     const query : string = col + " " + value
-    return queryMap[loadedFileName][query]
+    return <p>{queryMap[loadedFileName][query]}</p>
     }
 }
 

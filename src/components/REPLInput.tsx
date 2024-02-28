@@ -7,8 +7,8 @@ import { commands, REPLFunction } from './REPLFunction';
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
   // CHANGED
-  history: string[];
-  setHistory: Dispatch<SetStateAction<string[]>>;
+  history: JSX.Element[];
+  setHistory: Dispatch<SetStateAction<JSX.Element[]>>;
   isBrief: boolean;
   setIsBrief: Dispatch<SetStateAction<boolean>>;
 }
@@ -32,23 +32,31 @@ export function REPLInput(props : REPLInputProps) {
         const output = func(args, props.isBrief, props.setIsBrief);
         if (typeof output === "string") {
           props.history.push(output);
+          console.log(props.history)
         } else {
-          for (let i = 0; i < output.length; i++) {
-              props.history.push("[" + output[i].toString() + "]");
-          }
+          // for (let i = 0; i < output.length; i++) {
+          //     props.history.push("[" + output[i].toString() + "]");
+          //     console.log(props.history)
+          // }
+          props.history.push(output)
         }
       } else {
-        props.history.push("Command: " + command);
+        props.history.push(<p>{"Command: " + command}</p>);
         const output = func(args,props.isBrief, props.setIsBrief);
         if (typeof output === "string") {
-          props.history.push("Output: " + output);
+          props.history.push(<p>{"Output: " + output}</p>);
+          console.log(props.history)
         } else {
-          props.history.push("Output: ");
-          for (let i = 0; i < output.length; i++) {
-            props.history.push("[" + output[i].toString() + "]");
+          props.history.push(<p>Output: </p>);
+          // for (let i = 0; i < output.length; i++) {
+          //   props.history.push(<p>{"[" + output[i].toString() + "]"}</p>);
+          //   console.log(props.history)
+          props.history.push(output)
           }
-        }
+        
       }
+
+      console.log(props.history)
       props.setHistory([...props.history]);
       setCommandString("");
     }
@@ -61,7 +69,7 @@ export function REPLInput(props : REPLInputProps) {
       const command: string = commandArr[0]
       const functionToUse = commands[command]
       if (typeof functionToUse != 'function'){
-        props.setHistory([...props.history, "Error: command not recognized"]);
+        props.setHistory([...props.history, <p>Error: command not recognized</p>]);
       } else{
       handleCommands(command, commandArr, functionToUse)}
       setCommandString("");

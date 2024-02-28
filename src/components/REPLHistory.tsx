@@ -3,7 +3,7 @@ import '../styles/main.css';
 interface REPLHistoryProps {
   // TODO: Fill with some shared state tracking all the pushed commands
   // CHANGED
-  history: string[];
+  history: JSX.Element[];
   isBrief: boolean;
 }
 export function REPLHistory(props : REPLHistoryProps) {

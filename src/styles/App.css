@@ -10,5 +10,7 @@
   align-items: center;
   justify-content: center;
   font-size: calc(1px + 2vmin);
-  color: white;
+  color: green;
 }
+
+.TableComponent
