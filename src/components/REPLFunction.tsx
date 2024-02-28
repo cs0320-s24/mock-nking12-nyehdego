@@ -68,14 +68,14 @@ export const commands: { [key: string]: REPLFunction } = {
 
 // function that handles load command
 function handleLoad(args: Array<string>) : string | string[][]{
-    const filepath = args[1]
-    loadedFile = dataMap[args[1]]
+    const filepath = args[0]
+    loadedFile = dataMap[args[0]]
     if (dataMap[filepath] === mocked_malformed){
         return "Malformed csv. Try a different one."
     }
     if (dataMap[filepath]) {
         isLoaded = true;
-        loadedFileName = args[1];
+        loadedFileName = args[0];
         return `${filepath} successfully loaded`;
     } else {
         return `ERROR: ${filepath} is not valid. Try again.`;
@@ -99,10 +99,13 @@ function handleView(args: Array<string>) : string | string[][]{
 
 function handleSearch(args: Array<string>) : string | string[][] {
     if (!isLoaded){
-        return "Error: No CSV loaded";
-    } else {
-    const col = args[1]
-    const value = args[2]
+        return "Error: No CSV loaded";}
+    if (args.length < 2){
+        return "Error: incorrect search parameters. Proper usage: 'search <column> <value>'";
+    }
+    else {
+    const col = args[0]
+    const value = args[1]
     const query : string = col + " " + value
     return queryMap[loadedFileName][query]
     }

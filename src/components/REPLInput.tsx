@@ -59,11 +59,12 @@ export function REPLInput(props : REPLInputProps) {
       setCount(count + 1);
       const commandArr: string[] = commandString.split(" ");
       const command: string = commandArr[0]
+      const args = commandArr.slice(1)
       const functionToUse = commands[command]
       if (typeof functionToUse != 'function'){
         props.setHistory([...props.history, "Error: command not recognized"]);
       } else{
-      handleCommands(command, commandArr, functionToUse)}
+      handleCommands(command, args, functionToUse)}
       setCommandString("");
     }
 

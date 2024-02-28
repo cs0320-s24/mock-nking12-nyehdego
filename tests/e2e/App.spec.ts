@@ -334,5 +334,33 @@ test("test mode change with same input", async ({ page }) => {
     expect(fourthChild).toEqual("Output: mocked_data_1 successfully loaded");
 });
 
+test("search with incorrect inputs", async ({ page }) => {
+  // CHANGED
+  await page.goto("http://localhost:8000/");
+  await page.getByLabel("Login").click();
+  await page.getByLabel("Command input").fill("load_csv mocked_data_1");
+  await page.getByRole("button", { name: "Submitted 0 times" }).click();
+
+  // you can use page.evaulate to grab variable content from the page for more complex assertions
+  const firstChild = await page.evaluate(() => {
+    const history = document.querySelector(".repl-history");
+    return history?.children[0]?.textContent;
+  });
+
+  expect(firstChild).toEqual("mocked_data_1 successfully loaded");
+
+  await page.getByLabel("Command input").fill("search");
+  await page.getByRole("button", { name: "Submitted 1 times" }).click();
+
+  const secondChild = await page.evaluate(() => {
+    const history = document.querySelector(".repl-history");
+    return history?.children[1]?.textContent;
+  });
+
+  expect(secondChild).toEqual(
+    "Error: incorrect search parameters. Proper usage: 'search <column> <value>'"
+  );
+});
+
 
 
