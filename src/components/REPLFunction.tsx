@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import "../styles/main.css";
 //import "../src/mockedJson.ts"
 import { mocked_data_1, mocked_data_2, mocked_data_3, mocked_data_4, mocked_data_5, mocked_malformed } from "../mockedJson";
+import Table from "../components/TableComponent";
 
 
 /**
@@ -83,13 +84,22 @@ function handleLoad(args: Array<string>) : string | string[][]{
 }
 
 // function that handles view command
-function handleView(args: Array<string>) : string | string[][]{
-    if (!isLoaded){
-        return "Error: No CSV loaded";
-    } else {
-        return loadedFile;
-    }
+function handleView(args: Array<string>) {
+  if (!isLoaded) {
+      return "Error: No CSV loaded";
+  } else {
+      // Assuming loadedFile is a 2D array of strings
+      const output = (
+          <div>
+              <p>Viewing:</p>
+              <Table data={loadedFile} />
+          </div>
+      );
+      return output; // Added return statement
+  }
 }
+
+
 
 /**
  * function that handles search command, taking in arguments for a potential column name or index for more narrowed search
