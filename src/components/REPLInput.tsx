@@ -26,7 +26,7 @@ export function REPLInput(props : REPLInputProps) {
 
       
 
-  // this function handles the output depending on whether the mod eis verbose or brief
+  // this function handles the output depending on whether the mode is verbose or brief
     function handleCommands(command : string, args: Array<string>, func: REPLFunction) {
       if (props.isBrief) {
         const output = func(args, props.isBrief, props.setIsBrief);
