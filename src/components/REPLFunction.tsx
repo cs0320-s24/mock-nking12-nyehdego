@@ -14,7 +14,7 @@ import Table from "../components/TableComponent";
  */
 
 export interface REPLFunction {    
-    (args: Array<string>, isBrief: boolean, setIsBrief: Dispatch<SetStateAction<boolean>>): string|string[][]
+    (args: Array<string>, isBrief: boolean, setIsBrief: Dispatch<SetStateAction<boolean>>): string|string[][]|JSX.Element
 } 
 
 
@@ -84,7 +84,7 @@ function handleLoad(args: Array<string>) : string | string[][]{
 }
 
 // function that handles view command
-function handleView(args: Array<string>) {
+function handleView(args: Array<string>) : string|string[][]|JSX.Element {
   if (!isLoaded) {
       return "Error: No CSV loaded";
   } else {
@@ -95,7 +95,7 @@ function handleView(args: Array<string>) {
               <Table data={loadedFile} />
           </div>
       );
-      return output; // Added return statement
+      return output;
   }
 }
 
