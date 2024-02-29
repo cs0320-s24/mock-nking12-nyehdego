@@ -106,25 +106,55 @@ function handleView(args: Array<string>) : JSX.Element {
  * for this search to work with mocked data, we have it query through our queryMap for ease
  */
 
+// function handleSearch(args: Array<string>) : JSX.Element {
+//     if (!isLoaded){
+//         return <p>Error: No CSV loaded</p>;
+//     } else {
+//     const col = args[1]
+//     const value = args[2]
+//     const query : string = col + " " + value
+//       if (!queryMap[loadedFileName][query]) {
+//         return <p>No matches found. Try again</p>
+//       }   else  {
+//       const output = (
+//         <div>
+//           <p>Search Results:</p>
+//           <Table data={queryMap[loadedFileName][query]} />
+//         </div>
+//       );
+//     return output
+//     }
+//   }
+// }
+
 function handleSearch(args: Array<string>) : JSX.Element {
-    if (!isLoaded){
-        return <p>Error: No CSV loaded</p>;
-    } else {
-    const col = args[1]
-    const value = args[2]
-    const query : string = col + " " + value
-      if (!queryMap[loadedFileName][query]) {
-        return <p>No matches found. Try again</p>
-      }   else  {
-      const output = (
-        <div>
-          <p>Search Results:</p>
-          <Table data={queryMap[loadedFileName][query]} />
-        </div>
-      );
-    return output
+  if (!isLoaded){
+      return <p>Error: No CSV loaded</p>;
     }
+  if (args.length < 2){
+      return <p>Error: incorrect search parameters. Proper usage: 'search [column] [value]</p>;
   }
+  else {
+  const col = args[1]
+  const value = args[2]
+  const query : string = col + " " + value
+
+  console.log("Query:", query);
+  console.log("Loaded File Name:", loadedFileName);
+  console.log("Query Map:", queryMap);
+  
+  if (queryMap[loadedFileName][query]) {
+    const output = (
+      <div>
+        <p>Search Results:</p>
+        <Table data={queryMap[loadedFileName][query]} />
+      </div>
+    );
+    return output
+  } else {
+    return <p>Error: no results</p>
+  }
+}
 }
 
 
