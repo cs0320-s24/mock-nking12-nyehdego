@@ -99,7 +99,8 @@ function handleView(args: Array<string>) : string | string[][]{
 
 function handleSearch(args: Array<string>) : string | string[][] {
     if (!isLoaded){
-        return "Error: No CSV loaded";}
+        return "Error: No CSV loaded";
+      }
     if (args.length < 2){
         return "Error: incorrect search parameters. Proper usage: 'search <column> <value>'";
     }
@@ -107,6 +108,9 @@ function handleSearch(args: Array<string>) : string | string[][] {
     const col = args[0]
     const value = args[1]
     const query : string = col + " " + value
+      if (!queryMap[loadedFileName][query]) {
+        return "No matches found";
+      }
     return queryMap[loadedFileName][query]
     }
 }
