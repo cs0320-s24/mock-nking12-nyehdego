@@ -100,7 +100,6 @@ function handleView(args: Array<string>) : JSX.Element {
 }
 
 
-
 /**
  * function that handles search command, taking in arguments for a potential column name or index for more narrowed search
  * 
@@ -114,8 +113,18 @@ function handleSearch(args: Array<string>) : JSX.Element {
     const col = args[1]
     const value = args[2]
     const query : string = col + " " + value
-    return <p>{queryMap[loadedFileName][query]}</p>
+      if (!queryMap[loadedFileName][query]) {
+        return <p>No matches found. Try again</p>
+      }   else  {
+      const output = (
+        <div>
+          <p>Search Results:</p>
+          <Table data={queryMap[loadedFileName][query]} />
+        </div>
+      );
+    return output
     }
+  }
 }
 
 
