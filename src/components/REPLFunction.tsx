@@ -108,11 +108,12 @@ function handleSearch(args: Array<string>) : string | string[][] {
     const col = args[0]
     const value = args[1]
     const query : string = col + " " + value
-      if (!queryMap[loadedFileName][query]) {
-        return "No matches found";
-      }
-    return queryMap[loadedFileName][query]
+    if (queryMap[loadedFileName][query]) {
+      return queryMap[loadedFileName][query];
+    } else {
+      return "Error: unrecognized query"
     }
+}
 }
 
 
