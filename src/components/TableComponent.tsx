@@ -3,6 +3,7 @@ import "../styles/main.css";
 
 interface TableProps {
   data: any[][];
+  header: string;
 }
 
 const Table: React.FC<TableProps> = ({ data }) => {
