@@ -1,4 +1,7 @@
 import '../styles/main.css';
+/**
+ * class that handles the history mapping
+ */
 
 interface REPLHistoryProps {
   // TODO: Fill with some shared state tracking all the pushed commands

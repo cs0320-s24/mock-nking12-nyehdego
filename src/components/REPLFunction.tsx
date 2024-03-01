@@ -31,7 +31,11 @@ const dataMap: { [index: string]: string[][] } = {
     mocked_malformed: mocked_malformed,
 };
 
-// mocked data query map for our "mocked" calls to search command
+
+
+/**
+ * mocked data query map for our "mocked" calls to search command
+ */
 const queryMap: { [key: string]: { [key: string]: string | string[][] } } = {
   mocked_data_1: { "0 1": [["1", "2", "3", "4", "5"]], "4 11": [[]] },
   mocked_data_2: {
@@ -55,7 +59,10 @@ const queryMap: { [key: string]: { [key: string]: string | string[][] } } = {
   },
 };
 
-// strategy pattern: any developer can add commands to this command map and have corresponding functions to build on the capabilities of the program
+/**
+ * Commands that acts as a map for the commands and directs the program to the correct function to run
+ * strategy pattern: any developer can add commands to this command map and have corresponding functions to build on the capabilities of the program
+ */
 export const commands: { [key: string]: REPLFunction } = {
   load_csv: (args: string[]) => handleLoad(args),
   view: (args: string[]) => handleView(args),
@@ -67,7 +74,11 @@ export const commands: { [key: string]: REPLFunction } = {
   ) => handleMode(args, isBrief, setIsBrief),
 };
 
-// function that handles load command
+/**
+ * a function is that loads in the csv into the global 'loadedFile' field. Only one dataset can be loaded at a time
+ * @param args an array holding the inputted arguments, namely a filepath, passed in from REPLInput
+ * @returns message about whether the load was succesful or not.
+ */
 function handleLoad(args: Array<string>) : JSX.Element {
     const filepath = args[0]
     loadedFile = dataMap[args[0]]
@@ -83,7 +94,10 @@ function handleLoad(args: Array<string>) : JSX.Element {
     }
 }
 
-// function that handles view command
+/**
+ * a function is that loads iup the data into a table and pastes it into the webpage
+ * @returns JSXElement (table)
+ */
 function handleView(args: Array<string>) : JSX.Element {
   if (!isLoaded) {
       return <p>Error: No CSV loaded</p>;
@@ -99,6 +113,11 @@ function handleView(args: Array<string>) : JSX.Element {
   }
 }
 
+/**
+ * function that handles the search processing of a loaded CSVfile by putting the result in the table
+ * @param args an array holding the inputted arguments, namely a column identifier and search term, passed in from REPLInput
+ * @returns 
+ */
 function handleSearch(args: Array<string>) : JSX.Element {
   if (!isLoaded){
       return <p>Error: No CSV loaded</p>;
@@ -131,8 +150,11 @@ function handleSearch(args: Array<string>) : JSX.Element {
 
 
 /**
- * function that handles mode command, taking in the global ifBrief variable to mark whether we are in verbose or brief
- * 
+ * function that handles the mode switches and adjusts the isBrief boolean accordingly and sends an output message to the webpage
+ * @param args 
+ * @param isBrief 
+ * @param setIsBrief 
+ * @returns 
  */
 function handleMode(args: Array<string>, isBrief:boolean, setIsBrief: Dispatch<SetStateAction<boolean>>): string | string[][] {
     function modeName(): string {

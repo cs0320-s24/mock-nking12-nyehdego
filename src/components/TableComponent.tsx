@@ -1,10 +1,19 @@
 import React from "react";
 import "../styles/main.css";
-
+/**
+ * This is the component that forms the table given the 2d array corresponding to the data from view or search
+ */
 interface TableProps {
   data: any[][];
   header: string;
 }
+
+/**
+ * Builds the table and returns it to the output
+ * CSS design is in main.css
+ * @param data
+ * @returns 
+ */
 
 const Table: React.FC<TableProps> = ({ data }) => {
   return (

@@ -4,6 +4,10 @@ import '../styles/main.css';
 import { ControlledInput } from './ControlledInput';
 import { commands, REPLFunction } from './REPLFunction';
 
+/**
+ * Class that handles all things with the input and is the first class that gets called on after the log in button
+ */
+
 interface REPLInputProps {
   // TODO: Fill this with desired props... Maybe something to keep track of the submitted commands
   // CHANGED
@@ -12,7 +16,6 @@ interface REPLInputProps {
   isBrief: boolean;
   setIsBrief: Dispatch<SetStateAction<boolean>>;
 }
-
 
 
 // You can use a custom interface or explicit fields or both! An alternative to the current function header might be:
@@ -27,17 +30,19 @@ export function REPLInput(props : REPLInputProps) {
       
 
   // this function handles the output depending on whether the mod eis verbose or brief
+
+  /**
+   * function that handles the output depending on whether the mode is verbose or brief
+   * @param command the command that was parsed out after being inputted by the user
+   * @param args 
+   * @param func
+   */
     function handleCommands(command : string, args: Array<string>, func: REPLFunction) {
       if (props.isBrief) {
         const output = func(args, props.isBrief, props.setIsBrief);
         if (typeof output === "string") {
           props.history.push(output);
-          console.log(props.history)
         } else {
-          // for (let i = 0; i < output.length; i++) {
-          //     props.history.push("[" + output[i].toString() + "]");
-          //     console.log(props.history)
-          // }
           props.history.push(output)
         }
       } else {
@@ -45,24 +50,21 @@ export function REPLInput(props : REPLInputProps) {
         const output = func(args,props.isBrief, props.setIsBrief);
         if (typeof output === "string") {
           props.history.push(<p>{"Output: " + output}</p>);
-          console.log(props.history)
         } else {
           props.history.push(<p>Output: </p>);
-          // for (let i = 0; i < output.length; i++) {
-          //   props.history.push(<p>{"[" + output[i].toString() + "]"}</p>);
-          //   console.log(props.history)
           props.history.push(output)
           }
         
       }
 
-      console.log(props.history)
       props.setHistory([...props.history]);
       setCommandString("");
     }
       
-    
-    // This function is triggered when the button is clicked, and calls on the handlecommands to parse the text 
+    /**
+     * this function is triggered when the button is clicked, and calls on the handleCommands to parse
+     * @param commandString string inputted by the user
+     */
     function handleSubmit(commandString:string) {
       setCount(count + 1);
       const commandArr: string[] = commandString.split(" ");
