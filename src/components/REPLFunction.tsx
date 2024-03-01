@@ -69,14 +69,14 @@ export const commands: { [key: string]: REPLFunction } = {
 
 // function that handles load command
 function handleLoad(args: Array<string>) : JSX.Element {
-    const filepath = args[1]
-    loadedFile = dataMap[args[1]]
+    const filepath = args[0]
+    loadedFile = dataMap[args[0]]
     if (dataMap[filepath] === mocked_malformed){
         return <p>Malformed csv. Try a different one.</p>
     }
     if (dataMap[filepath]) {
         isLoaded = true;
-        loadedFileName = args[1];
+        loadedFileName = args[0];
         return <p>{filepath} successfully loaded</p>;
     } else {
         return <p>ERROR: ${filepath} is not valid. Try again.</p>;
@@ -99,34 +99,6 @@ function handleView(args: Array<string>) : JSX.Element {
   }
 }
 
-
-/**
- * function that handles search command, taking in arguments for a potential column name or index for more narrowed search
- * 
- * for this search to work with mocked data, we have it query through our queryMap for ease
- */
-
-// function handleSearch(args: Array<string>) : JSX.Element {
-//     if (!isLoaded){
-//         return <p>Error: No CSV loaded</p>;
-//     } else {
-//     const col = args[1]
-//     const value = args[2]
-//     const query : string = col + " " + value
-//       if (!queryMap[loadedFileName][query]) {
-//         return <p>No matches found. Try again</p>
-//       }   else  {
-//       const output = (
-//         <div>
-//           <p>Search Results:</p>
-//           <Table data={queryMap[loadedFileName][query]} />
-//         </div>
-//       );
-//     return output
-//     }
-//   }
-// }
-
 function handleSearch(args: Array<string>) : JSX.Element {
   if (!isLoaded){
       return <p>Error: No CSV loaded</p>;
@@ -135,8 +107,8 @@ function handleSearch(args: Array<string>) : JSX.Element {
       return <p>Error: incorrect search parameters. Proper usage: 'search [column] [value]</p>;
   }
   else {
-  const col = args[1]
-  const value = args[2]
+  const col = args[0]
+  const value = args[1]
   const query : string = col + " " + value
 
   console.log("Query:", query);
