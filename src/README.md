@@ -27,4 +27,4 @@ To use this program, you will have to use a command line at the bottom of the ap
 - `search <column name or index number> <searchword>`: Use this command to search a file that has been loaded already. It will return all of the rows that contain the search term within the column name/index that was specified.
 
 # Collaboration
-None
+Stack Overflow supported the put together of the table component
