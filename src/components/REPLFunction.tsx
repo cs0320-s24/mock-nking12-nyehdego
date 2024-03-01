@@ -100,7 +100,10 @@ function handleLoad(args: Array<string>) : JSX.Element {
  */
 function handleView(args: Array<string>) : JSX.Element {
   if (!isLoaded) {
-      return <p>Error: No CSV loaded</p>;
+      return <p>Error: No CSV loaded</p>;}
+  
+  if (loadedFile.length === 0) {
+    return <p>Error: can't view empty dataset</p>;
   } else {
       // Assuming loadedFile is a 2D array of strings
       const output = (
