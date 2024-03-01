@@ -37,7 +37,7 @@ const queryMap: { [key: string]: { [key: string]: string | string[][] } } = {
   mocked_data_2: {
     "0 Hello": [["Hello", "Tim", "Bye"]],
     "2 Blue": [["Red", "Yellow", "Blue"]],
-    "4 Hi": "No matches",
+    "4 Hi": [["No matches"]],
   },
   mocked_data_3: { "0 Hello": [[]] },
   mocked_data_4: {
@@ -45,7 +45,7 @@ const queryMap: { [key: string]: { [key: string]: string | string[][] } } = {
       ["Red", "Orange", "Yellow"],
       ["Green", "Orange", "Red"],
     ],
-    "Orange 3": "No matches",
+    "Orange 3": [["No matches"]],
   },
   mocked_data_5: {
     "StarID 0": [["0", "Sol", "0", "0", "0"]],

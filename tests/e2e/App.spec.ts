@@ -194,13 +194,7 @@ const thirdChild = await page.evaluate(() => {
   const history = document.querySelector(".repl-history");
   return history?.children[2]?.textContent;
 });
-expect(thirdChild).toEqual("[Red,Orange,Yellow]");
-
-const fourthChild = await page.evaluate(() => {
-  const history = document.querySelector(".repl-history");
-  return history?.children[3]?.textContent;
-});
-expect(fourthChild).toEqual("[Green,Orange,Red]");
+expect(thirdChild).toEqual("Viewing:RedOrangeYellowGreenOrangeRed");
 });
 
 test("search csv without loading, then load the csv, then search", async ({
@@ -235,13 +229,7 @@ test("search csv without loading, then load the csv, then search", async ({
     const history = document.querySelector(".repl-history");
     return history?.children[2]?.textContent;
   });
-  expect(thirdChild).toEqual("[Red,Orange,Yellow]");
-
-  const fourthChild = await page.evaluate(() => {
-    const history = document.querySelector(".repl-history");
-    return history?.children[3]?.textContent;
-  });
-  expect(fourthChild).toEqual("[Green,Orange,Red]");
+  expect(thirdChild).toEqual("Search Results:RedOrangeYellowGreenOrangeRed");
 });
 
 
@@ -268,7 +256,7 @@ test("search csv with no matches", async ({ page }) => {
       return history?.children[1]?.textContent;
     });
 
-    expect(secondChild).toEqual("No matches");
+    expect(secondChild).toEqual("Search Results:No matches");
 
 });
 
@@ -331,7 +319,14 @@ test("test mode change with same input", async ({ page }) => {
     return history?.children[3]?.textContent;
     });
 
-    expect(fourthChild).toEqual("Output: mocked_data_1 successfully loaded");
+    expect(fourthChild).toEqual("Output: ");
+
+    const fifthChild = await page.evaluate(() => {
+      const history = document.querySelector(".repl-history");
+      return history?.children[4]?.textContent;
+      });
+
+    expect(fifthChild).toEqual("mocked_data_1 successfully loaded");
 });
 
 
